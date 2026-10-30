@@ -553,6 +553,17 @@ fun AddToCartButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
+fun ProductCatalogScreenPreview() {
+    ProductExplorerTheme {
+        ProductCatalogScreen(
+            products = sampleProducts(),
+            onProductClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
 fun ProductHomeScreenPreview() {
     ProductExplorerTheme {
         ProductHomeScreen(
