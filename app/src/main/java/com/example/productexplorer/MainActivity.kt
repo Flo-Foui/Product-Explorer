@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -146,6 +147,10 @@ fun sampleProducts(): List<ProductUi> {
             shippingInformation = "Livraison estimée : 3 jours ouvrés"
         )
     )
+}
+
+fun sampleCategories(): List<String> {
+    return listOf("Smartphones", "Audio", "Wearables", "Maison")
 }
 
 @Composable
@@ -330,6 +335,21 @@ fun CategoriesSection(modifier: Modifier = Modifier) {
             CategoryChip(label = "Audio")
             Spacer(modifier = Modifier.weight(1f))
             CategoryChip(label = "Maison")
+        }
+    }
+}
+
+@Composable
+fun CategoryRow(
+    categories: List<String>,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(categories) { category ->
+            CategoryChip(label = category)
         }
     }
 }
