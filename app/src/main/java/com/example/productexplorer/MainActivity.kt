@@ -74,6 +74,21 @@ fun sampleProduct(): ProductUi {
     )
 }
 
+fun sampleProductOutOfStock(): ProductUi {
+    return ProductUi(
+        title = "Casque Audio Pulse",
+        brand = "SoundPeak",
+        category = "Audio",
+        description = "Un casque sans fil confortable avec réduction de bruit active, une autonomie de 30 heures et des coussinets à mémoire de forme. Idéal pour les trajets quotidiens, le télétravail ou les longues sessions d'écoute à la maison.",
+        price = 129.99,
+        discountPercentage = 8.0,
+        rating = 4.2,
+        stock = 0,
+        warrantyInformation = "Garantie constructeur : 1 an",
+        shippingInformation = "Produit temporairement indisponible"
+    )
+}
+
 @Composable
 fun ProductDetailScreen(product: ProductUi, modifier: Modifier = Modifier) {
     Column(
@@ -233,5 +248,13 @@ fun AddToCartButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
 fun ProductDetailScreenPreview() {
     ProductExplorerTheme {
         ProductDetailScreen(product = sampleProduct())
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProductDetailScreenOutOfStockPreview() {
+    ProductExplorerTheme {
+        ProductDetailScreen(product = sampleProductOutOfStock())
     }
 }
