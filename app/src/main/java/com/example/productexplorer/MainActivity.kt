@@ -52,8 +52,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProductExplorerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ProductCatalogScreen(
+                    ProductCatalogContainer(
                         products = sampleProducts(),
+                        categories = sampleCategories(),
                         onProductClick = {
                             // Plus tard : ouvrir le détail du produit
                         },
@@ -161,8 +162,9 @@ fun sampleCategories(): List<String> {
 }
 
 @Composable
-fun ProductCatalogScreen(
+fun ProductCatalogContainer(
     products: List<ProductUi>,
+    categories: List<String>,
     onProductClick: (ProductUi) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -198,6 +200,39 @@ fun ProductCatalogScreen(
         }
     }
 
+    ProductCatalogScreen(
+        products = filteredProducts,
+        categories = categories,
+        searchQuery = searchQuery,
+        onSearchQueryChange = { newValue ->
+            searchQuery = newValue
+        },
+        showOnlyInStock = showOnlyInStock,
+        onToggleStockFilter = {
+            showOnlyInStock = !showOnlyInStock
+        },
+        favoriteProductIds = favoriteProductIds,
+        onFavoriteClick = { productId ->
+            toggleFavorite(productId)
+        },
+        onProductClick = onProductClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ProductCatalogScreen(
+    products: List<ProductUi>,
+    categories: List<String>,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    showOnlyInStock: Boolean,
+    onToggleStockFilter: () -> Unit,
+    favoriteProductIds: List<Int>,
+    onFavoriteClick: (Int) -> Unit,
+    onProductClick: (ProductUi) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -223,9 +258,7 @@ fun ProductCatalogScreen(
         item {
             OutlinedTextField(
                 value = searchQuery,
-                onValueChange = { newValue ->
-                    searchQuery = newValue
-                },
+                onValueChange = onSearchQueryChange,
                 label = {
                     Text(text = "Rechercher un produit")
                 },
@@ -235,9 +268,7 @@ fun ProductCatalogScreen(
 
         item {
             Button(
-                onClick = {
-                    showOnlyInStock = !showOnlyInStock
-                }
+                onClick = onToggleStockFilter
             ) {
                 Text(
                     text = if (showOnlyInStock) {
@@ -251,7 +282,7 @@ fun ProductCatalogScreen(
 
         item {
             Text(
-                text = "${filteredProducts.size} produit(s) affiché(s)",
+                text = "${products.size} produit(s) affiché(s)",
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -261,14 +292,14 @@ fun ProductCatalogScreen(
         }
 
         items(
-            items = filteredProducts,
+            items = products,
             key = { product -> product.id }
         ) { product ->
             ProductListItem(
                 product = product,
                 isFavorite = favoriteProductIds.contains(product.id),
                 onFavoriteClick = {
-                    toggleFavorite(product.id)
+                    onFavoriteClick(product.id)
                 },
                 onClick = {
                     onProductClick(product)
@@ -664,8 +695,9 @@ fun AddToCartButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
 @Composable
 fun ProductCatalogScreenLightPreview() {
     ProductExplorerTheme(darkTheme = false) {
-        ProductCatalogScreen(
+        ProductCatalogContainer(
             products = sampleProducts(),
+            categories = sampleCategories(),
             onProductClick = {}
         )
     }
@@ -678,8 +710,9 @@ fun ProductCatalogScreenLightPreview() {
 @Composable
 fun ProductCatalogScreenDarkPreview() {
     ProductExplorerTheme(darkTheme = true) {
-        ProductCatalogScreen(
+        ProductCatalogContainer(
             products = sampleProducts(),
+            categories = sampleCategories(),
             onProductClick = {}
         )
     }
