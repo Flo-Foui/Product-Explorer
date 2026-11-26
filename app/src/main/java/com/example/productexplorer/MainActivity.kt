@@ -172,6 +172,17 @@ fun ProductCatalogScreen(
     var showOnlyInStock by rememberSaveable {
         mutableStateOf(false)
     }
+    var favoriteProductIds by rememberSaveable {
+        mutableStateOf(listOf<Int>())
+    }
+
+    fun toggleFavorite(productId: Int) {
+        favoriteProductIds = if (favoriteProductIds.contains(productId)) {
+            favoriteProductIds - productId
+        } else {
+            favoriteProductIds + productId
+        }
+    }
 
     val filteredProducts = remember(products, searchQuery, showOnlyInStock) {
         products.filter { product ->
