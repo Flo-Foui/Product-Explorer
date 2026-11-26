@@ -693,7 +693,7 @@ fun AddToCartButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     name = "Catalogue - Light Theme"
 )
 @Composable
-fun ProductCatalogScreenLightPreview() {
+fun ProductCatalogContainerLightPreview() {
     ProductExplorerTheme(darkTheme = false) {
         ProductCatalogContainer(
             products = sampleProducts(),
@@ -708,7 +708,7 @@ fun ProductCatalogScreenLightPreview() {
     name = "Catalogue - Dark Theme"
 )
 @Composable
-fun ProductCatalogScreenDarkPreview() {
+fun ProductCatalogContainerDarkPreview() {
     ProductExplorerTheme(darkTheme = true) {
         ProductCatalogContainer(
             products = sampleProducts(),
