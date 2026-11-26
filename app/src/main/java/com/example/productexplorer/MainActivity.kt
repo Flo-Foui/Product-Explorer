@@ -239,6 +239,13 @@ fun ProductCatalogScreen(
         }
 
         item {
+            Text(
+                text = "${filteredProducts.size} produit(s) affiché(s)",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        item {
             CategoryRow(categories = sampleCategories())
         }
 
